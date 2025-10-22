@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Danh sách bài tập</title>
+    <style>
+        :root {
+            --primary: #f97316;
+            --bg: #fff7ed;
+            --text: #1e293b;
+            --card-bg: #fff;
+            --shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", "Poppins", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            list-style: none;
+            display: grid;
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        li a {
+            display: block;
+            background: var(--card-bg);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 6px solid transparent;
+        }
+
+        li a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>f8-zoom-day-25</h1>
+    <ul>
+        <li><a href="./_1.CheckboxAll/index.html">CheckBoxAll</a></li>
+        <li><a href="./_2.Tabs/index.html">Tabs</a></li>
+        <li><a href="./_3.Slideshow/index.html">SlideShow</a></li>
+    </ul>
+    <footer>© 2025 - F8 Exercises by Sáng Đỗ Danh</footer>
+</body>
+
+</html>
