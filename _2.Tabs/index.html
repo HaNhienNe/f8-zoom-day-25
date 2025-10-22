@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tabs UI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="tabs moki-tabs">
+        <div class="moki-tab-list tab-list">
+            <button class="moki-tab tab active" data-for="panel-1">Tổng quan</button>
+            <button class="moki-tab tab" data-for="panel-2">Tác vụ</button>
+            <button class="moki-tab tab" data-for="panel-3">Cài đặt</button>
+        </div>
+
+        <div class="moki-tab-panels tab-panels">
+            <div class="moki-tab-panel tab-panel active" data-id="panel-1">
+                <div class="panel-card">
+                    <h2>👋 Chào mừng!</h2>
+                    <p>Đây là nội dung của <strong>Tab 1 – Tổng quan</strong>.</p>
+                    <p class="hint">Mẹo: Nhấn <span class="kbd">1</span> <span class="kbd">2</span> <span
+                            class="kbd">3</span> trên bàn phím để chuyển tab nhanh.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel" data-id="panel-2">
+                <div class="panel-card">
+                    <h2>📝 Tác vụ</h2>
+                    <p>Nội dung của <strong>Tab 2 – Tác vụ</strong>. </p>
+                    <p class="hint">Đặt class <code>active</code> sẵn ở tab
+                        này để mặc định mở.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel" data-id="panel-3">
+                <div class="panel-card">
+                    <h2>⚙️ Cài đặt</h2>
+                    <p>Nội dung của <strong>Tab 3 – Cài đặt</strong>.</p>
+                    <p class="hint">Thêm bao nhiêu tab cũng được.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="tabs moki-tabs horizontal">
+        <div class="moki-tab-list tab-list">
+            <button class="moki-tab tab" data-for="panel-1">Tổng quan</button>
+            <button class="moki-tab tab active" data-for="panel-2">Tác vụ</button>
+            <button class="moki-tab tab" data-for="panel-3">Cài đặt</button>
+        </div>
+
+        <div class="moki-tab-panels tab-panels">
+            <div class="moki-tab-panel tab-panel" data-id="panel-1">
+                <div class="panel-card">
+                    <h2>👋 Chào mừng!</h2>
+                    <p>Đây là nội dung của <strong>Tab 1 – Tổng quan</strong>.</p>
+                    <p class="hint">Mẹo: Nhấn <span class="kbd">1</span> <span class="kbd">2</span> <span
+                            class="kbd">3</span> trên bàn phím để chuyển tab nhanh.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel active" data-id="panel-2">
+                <div class="panel-card">
+                    <h2>📝 Tác vụ</h2>
+                    <p>Nội dung của <strong>Tab 2 – Tác vụ</strong>. </p>
+                    <p class="hint">Đặt class <code>active</code> sẵn ở tab
+                        này để mặc định mở.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel" data-id="panel-3">
+                <div class="panel-card">
+                    <h2>⚙️ Cài đặt</h2>
+                    <p>Nội dung của <strong>Tab 3 – Cài đặt</strong>.</p>
+                    <p class="hint">Thêm bao nhiêu tab cũng được.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="tabs moki-tabs">
+        <div class="moki-tab-list tab-list">
+            <button class="moki-tab tab" data-for="panel-1">Tổng quan</button>
+            <button class="moki-tab tab" data-for="panel-2">Tác vụ</button>
+            <button class="moki-tab tab active" data-for="panel-3">Cài đặt</button>
+        </div>
+
+        <div class="moki-tab-panels tab-panels">
+            <div class="moki-tab-panel tab-panel" data-id="panel-1">
+                <div class="panel-card">
+                    <h2>👋 Chào mừng!</h2>
+                    <p>Đây là nội dung của <strong>Tab 1 – Tổng quan</strong>.</p>
+                    <p class="hint">Mẹo: Nhấn <span class="kbd">1</span> <span class="kbd">2</span> <span
+                            class="kbd">3</span> trên bàn phím để chuyển tab nhanh.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel" data-id="panel-2">
+                <div class="panel-card">
+                    <h2>📝 Tác vụ</h2>
+                    <p>Nội dung của <strong>Tab 2 – Tác vụ</strong>. </p>
+                    <p class="hint">Đặt class <code>active</code> sẵn ở tab
+                        này để mặc định mở.</p>
+                </div>
+            </div>
+
+            <div class="moki-tab-panel tab-panel active" data-id="panel-3">
+                <div class="panel-card">
+                    <h2>⚙️ Cài đặt</h2>
+                    <p>Nội dung của <strong>Tab 3 – Cài đặt</strong>.</p>
+                    <p class="hint">Thêm bao nhiêu tab cũng được.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./main.js"></script>
+
+</body>
+
+</html>

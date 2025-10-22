@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slideshow</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="slider1 moki-slide-container">
+        <div class="moki-slide">
+            <div class="moki-slide-item" data-image="./images/img1.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img2.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img3.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img4.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img5.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img6.png">
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="slider2">
+        <div class="moki-slide">
+            <div class="moki-slide-item" data-image="./images/img4.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img5.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img6.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img1.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img2.png">
+            </div>
+            <div class="moki-slide-item" data-image="./images/img3.png">
+            </div>
+        </div>
+    </div> -->
+    <script src="./main.js"></script>
+    <script>
+        const mokiSlide1 = new MokiSlide('.slider1', { slidesPerPage: 3, duration: 1000, autoPlay: false });
+        // const mokiSlide2 = new MokiSlide('.slider2', { slidesPerPage: 2, duration: 2000, autoPlay: false });
+    </script>
+</body>
+
+</html>

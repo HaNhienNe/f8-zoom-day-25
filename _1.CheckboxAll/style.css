@@ -1,0 +1,147 @@
+/* ====== Reset & Tokens ====== */
+:root {
+    --accent: #f97316;
+    /* cam */
+    --accent-600: #ea580c;
+    --accent-700: #c2410c;
+    --bg: #ffffff;
+    --panel: #fafafa;
+    --text: #111827;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .06);
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    color: var(--text);
+    background: linear-gradient(180deg, #fff 0%, #fff 30%, #f8fafc 100%);
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+/* ====== Layout ====== */
+.box {
+    width: min(720px, 100%);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: clip;
+}
+
+/* Header (checkAll + counter) */
+.box>#checkAll,
+.box>label[for="checkAll"] {
+    cursor: pointer;
+}
+
+.box>label[for="checkAll"] {
+    font-weight: 700;
+    color: var(--text);
+    margin-right: 10px;
+}
+
+.box>#count-checked {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--muted);
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid var(--border);
+}
+
+/* Header bar wrapper */
+.box {
+    --pad: 16px;
+}
+
+.box>#checkAll,
+.box>label[for="checkAll"],
+.box>#count-checked {
+    margin: var(--pad) 0 0 var(--pad);
+}
+
+.box::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: var(--border);
+    margin: var(--pad) 0 0 0;
+}
+
+/* ====== List ====== */
+#taskList {
+    list-style: none;
+    margin: 0;
+    padding: 12px;
+    max-height: 60vh;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar (optional) */
+#taskList::-webkit-scrollbar {
+    width: 10px
+}
+
+#taskList::-webkit-scrollbar-track {
+    background: transparent
+}
+
+#taskList::-webkit-scrollbar-thumb {
+    background: #eaeaea;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+#taskList:hover::-webkit-scrollbar-thumb {
+    background: #ddd
+}
+
+/* ====== Items ====== */
+#taskList li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin: 8px 4px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: box-shadow .12s ease, border-color .12s ease, transform .08s ease;
+}
+
+#taskList li:hover {
+    box-shadow: 0 8px 20px rgba(249, 115, 22, .10);
+    border-color: #f1f5f9;
+    transform: translateY(-1px);
+}
+
+/* Checkbox accent color (native) */
+#checkAll,
+#taskList .item {
+    accent-color: var(--accent);
+}
+
+/* Fallback/Polish for checkboxes (larger hit area) */
+#taskLis
