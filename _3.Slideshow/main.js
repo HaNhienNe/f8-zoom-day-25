@@ -34,6 +34,7 @@ const mokiRefs = {
     control: '.moki-control',
     prevButton: '.moki-prev',
     nextButton: '.moki-next',
+
 }
 
 function MokiSlide(sel, opt = defaults) {
@@ -41,6 +42,7 @@ function MokiSlide(sel, opt = defaults) {
     this.opt = Object.assign({}, defaults, opt);
     this._checkParams();
     this._init();
+
 }
 
 MokiSlide.prototype._checkParams = function () {
@@ -81,7 +83,7 @@ MokiSlide.prototype._init = function () {
 
     this._setBackGroundImage();
     this._setWidthSlide();
-
+    this.dragState = { isDraging: false, start: 0, end: 0, range: 0, currentRange: 0 };
 
     if (this.opt.showPagination) {
         this._createPagination();
@@ -97,24 +99,63 @@ MokiSlide.prototype._init = function () {
 
     if (this.opt.autoPlay) {
         this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
+
+        this.container.addEventListener('mouseenter', () => {
+            if (this.opt.autoPlay && this.opt.pauseOnHover) {
+                clearInterval(this.autoPlay);
+                this.autoPlay = null;
+            }
+        });
+
+        this.container.addEventListener('mouseleave', () => {
+            if (this.autoPlay === null && this.opt.pauseOnHover) {
+                this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
+            }
+        });
     }
-
-    this.slide.addEventListener('mouseover', () => {
-        if (this.opt.autoPlay && this.opt.pauseOnHover) {
-            clearInterval(this.autoPlay);
-        }
-    })
-
-    this.slide.addEventListener('mouseout', () => {
-        if (this.autoPlay && this.opt.pauseOnHover) {
-            this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
-        }
-    })
 
     if (this.opt.draggable) {
-        // TODO
+        const isPositive = String(this.slide.style.transform).includes('-');
+        this.dragState.currentRange = isPositive ? - (this.offsetWidthOfSlide * this.currentIndex) : (this.offsetWidthOfSlide * this.currentIndex);
+        this.container.addEventListener('mousedown', (e) => {
+            this.dragState.isDraging = true;
+            this.dragState.start = e.clientX;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!this.dragState.isDraging) return;
+            this.dragState.end = e.clientX;
+            this.dragState.range = this.dragState.end - this.dragState.start;
+            this.slide.style.transition = 'none';
+            this.container.style.userSelect = 'none'
+            this.slide.style.transform = `translateX(${this.dragState.currentRange + this.dragState.range}px)`;
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (!this.dragState.isDraging) return;
+            this.dragState.currentRange = this.dragState.currentRange + (this.dragState.end - this.dragState.start);
+            this.container.style.userSelect = 'auto';
+            this.slide.style.transition = `all ${this.opt.duration}ms ${this.opt.timingFunction}`;
+            const range = this.dragState.range;
+            const isNextSlide = range <= -230;
+            const ispreveSlide = range >= 230;
+            if (isNextSlide) {
+                this.currentIndex += this.opt.slidesPerPage;
+                this._handlerMoveSlideTarget(true);
+            } else if (ispreveSlide) {
+                this.currentIndex -= this.opt.slidesPerPage;
+                this._handlerMoveSlideTarget(false);
+            } else {
+                this.gotoSlide(this.currentIndex);
+            }
+
+            this.dragState.range = 0;
+            this.dragState.isDraging = false;
+        });
     }
 }
+
+
 
 MokiSlide.prototype._setWidthSlide = function () {
     this.slideItems.forEach(item => {
@@ -238,6 +279,9 @@ MokiSlide.prototype.gotoSlide = function (index, noTransition = false) {
     const cWidth = this.offsetWidthOfSlide * index;
     this.slide.style.transition = noTransition ? 'none' : `all ${this.opt.duration}ms ${this.opt.timingFunction}`;
     this.slide.style.transform = `translateX(-${cWidth}px)`;
+    if (this.opt.draggable) {
+        this.dragState.currentRange = -(cWidth);
+    }
     if (!noTransition) {
         setTimeout(() => {
             this.isClicked = false;
