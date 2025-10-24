@@ -6,82 +6,22 @@
 
 .moki-slide-container {
   position: relative;
-  width: min(800px, 100vw);
+  width: min(500px, 100vw);
+  height: min(1000px, 100vh);
   margin: 0 auto;
   overflow: hidden;
-}
-
-.moki-slide {
-  height: min(320px, 62vh);
-  display: flex;
-  transition: all 0.3s ease;
-}
-.moki-slide-item {
-  flex-shrink: 0;
-  width: 100%;
-  background-size: cover;
+  touch-action: none;
 }
 
 .moki-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 0;
+  transform: translateY(-100%);
 }
 
 .moki-pagination-item {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  background-color: rgba(200, 200, 200, 0.3);
   border: none;
-  background-color: rgb(228, 227, 227);
-  margin: 0 5px;
-}
-
-.moki-pagination-item:hover {
-  background-color: rgb(148, 147, 147);
-  cursor: pointer;
 }
 
 .moki-pagination-item.active {
-  background-color: rgb(148, 147, 147);
-}
-
-.moki-control {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.moki-control .moki-prev,
-.moki-control .moki-next {
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  opacity: 0.3;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 10px;
-  font-size: 30px;
-  transition: all 0.3s ease;
-  background-color: rgba(215, 214, 214, 0.388);
-}
-
-.moki-control .moki-prev:hover,
-.moki-control .moki-next:hover {
-  opacity: 1;
-  cursor: pointer;
-}
-
-.moki-control .moki-prev:disabled,
-.moki-control .moki-next:disabled {
-  background-color: rgba(200, 200, 200, 0.3);
-  color: #888;
-  transform: none;
+  background-color: rgba(200, 200, 200, 0.7);
 }
