@@ -11,7 +11,7 @@ const defaults = {
 
     slidesPerPage: 1,
     loop: true,
-    direction: 'horizontal', // or vertical 
+    direction: 'horizontal', // or vertical - v
     gap: 0,
 
     prevText: '‹',
@@ -20,9 +20,9 @@ const defaults = {
     showPagination: true,
 
     startIndex: 0,
-    draggable: false,
-    verticalThreshold: 0.3,
-    horizontalThreshold: 0.3,
+    draggable: true,
+    verticalThreshold: 0.12,
+    horizontalThreshold: 0.12,
 
     onInit: null,
     onChange: null
@@ -38,6 +38,8 @@ const mokiRefs = {
     container: { sel: '.moki-slide-container', value: 'moki-slide-container' },
 };
 
+const STATUS = { READY: 1, MOVE: 2, PROCESSING: 3, DONE: 4, }
+
 function MokiSlide(sel, opt = defaults) {
     this.sel = sel;
     this.opt = Object.assign({}, defaults, opt);
@@ -45,7 +47,6 @@ function MokiSlide(sel, opt = defaults) {
     this.ignoreTargets = [];
     this._checkParams();
     this._init();
-
 }
 
 MokiSlide.prototype._checkParams = function () {
@@ -125,33 +126,41 @@ MokiSlide.prototype._initSlideState = function () {
         this.currentIndex = 0;
         this.shouldDisableAllControls = true;
     }
-    this.dragState = { isDraging: false, start: 0, end: 0, range: 0, currentRange: 0 };
+    this.dragState = { isDraging: false, start: 0, end: 0, range: 0, currentRange: 0, canMove: false, status: STATUS.READY };
     this.isVertical = this.opt.direction === 'v' || this.opt.direction === 'vertical';
 }
 
 MokiSlide.prototype._initAutoPlay = function () {
     if (!this.opt.autoPlay) return;
+    this._startAutoPlay();
+    this._setupAutoPlayHoverEvents();
+};
+
+MokiSlide.prototype._startAutoPlay = function () {
+    if (this.autoPlay) return;
     this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
-    this.container.addEventListener('mouseover', (e) => {
+};
+
+MokiSlide.prototype._stopAutoPlay = function () {
+    clearInterval(this.autoPlay);
+    this.autoPlay = null;
+};
+
+MokiSlide.prototype._setupAutoPlayHoverEvents = function () {
+    this.slide.addEventListener('mouseenter', (e) => {
         if (!this.opt.autoPlay || !this.opt.pauseOnHover) return;
         const notIgnore = !this.ignoreTargets.includes(e.target);
         if (notIgnore) {
-            clearInterval(this.autoPlay);
-            this.autoPlay = null;
-            return;
-        }
-
-        if (this.autoPlay === null) {
-            this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
+            this._stopAutoPlay();
         }
     });
 
-    this.container.addEventListener('mouseleave', () => {
-        if (this.autoPlay === null && this.opt.pauseOnHover) {
-            this.autoPlay = setInterval(this.nextSlide.bind(this), this.opt.autoPlayDelay);
+    this.slide.addEventListener('mouseleave', () => {
+        if (this.autoPlay === null && this.opt.pauseOnHover && this.opt.autoPlay) {
+            this._startAutoPlay();
         }
     });
-}
+};
 
 MokiSlide.prototype._initDraggable = function () {
     if (!this.opt.draggable) return;
@@ -163,16 +172,20 @@ MokiSlide.prototype._initDraggable = function () {
 
     this.slide.addEventListener('pointerdown', (e) => {
         const isIgnore = this.ignoreTargets.includes(e.target);
-        if (isIgnore) {
+        const isReady = this.dragState.status === STATUS.READY;
+        const canDown = !isIgnore && isReady;
+        if (!canDown) {
             return;
         }
         this.slide.setPointerCapture(e.pointerId);
-        this.dragState.isDraging = true;
         this.dragState.start = this.isVertical ? e.clientY : e.clientX;
+        this.dragState.status = STATUS.MOVE;
+        this.opt.autoPlay && this._stopAutoPlay();
     });
 
     this.slide.addEventListener('pointermove', (e) => {
-        if (!this.dragState.isDraging) return;
+        const canMove = this.dragState.status === STATUS.MOVE;
+        if (!canMove) return;
         this.dragState.end = this.isVertical ? e.clientY : e.clientX;
         this.dragState.range = this.dragState.end - this.dragState.start;
         this.slide.style.transition = 'none';
@@ -181,11 +194,21 @@ MokiSlide.prototype._initDraggable = function () {
     });
 
     this.slide.addEventListener('pointerup', (e) => {
-        if (!this.dragState.isDraging) return;
+        if (this.dragState.status !== STATUS.MOVE) {
+            return;
+        }
+        if (this.dragState.range === 0 && this.dragState.status === STATUS.MOVE) {
+            this.slide.releasePointerCapture(e.pointerId);
+            this.dragState.status = STATUS.DONE;
+            this._resetStage();
+            return;
+        }
         this.dragState.currentRange = this.dragState.currentRange + (this.dragState.end - this.dragState.start);
         this.container.style.userSelect = 'auto';
         this.slide.style.transition = `all ${this.opt.duration}ms ${this.opt.timingFunction}`;
         this.slide.releasePointerCapture(e.pointerId);
+
+        this.dragState.status = STATUS.PROCESSING;
         const isNextSlide = this.dragState.range <= -this.dragDistance;
         const ispreveSlide = this.dragState.range >= this.dragDistance;
         this.oldIndex = this.currentIndex;
@@ -199,9 +222,6 @@ MokiSlide.prototype._initDraggable = function () {
         } else if (this.dragState.range !== 0) {
             this.gotoSlide(this.currentIndex, false, true);
         }
-
-        this.dragState.range = 0;
-        this.dragState.isDraging = false;
     });
 
 }
@@ -323,40 +343,56 @@ MokiSlide.prototype._activePagination = function () {
 }
 
 MokiSlide.prototype.gotoSlide = function (index, noTransition = false, noWaitTransitionEnd = false) {
+    this.opt.autoPlay && this._stopAutoPlay();
     const cWidth = this.isVertical ? this.offsetHeightOfSlide * index : this.offsetWidthOfSlide * index;
     this.slide.style.transition = noTransition ? 'none' : `all ${this.opt.duration}ms ${this.opt.timingFunction}`;
     this.slide.style.transform = `translate${this.isVertical ? 'Y' : 'X'}(-${cWidth}px)`;
+
     if (this.opt.draggable) {
         this.dragState.currentRange = -(cWidth);
     }
 
+    this.dragState.status = STATUS.DONE;
     if (!noTransition && !noWaitTransitionEnd) {
         setTimeout(() => {
-            this.isClicked = false;
+            this._resetStage();
         }, this.opt.duration);
     } else {
-        this.isClicked = false;
+        this._resetStage();
+
     }
 
-    if (!noTransition && this.oldIndex !== this.currentIndex) {
-        this._runCallback(this.opt.onChange);
-    }
+    // if (!noTransition && this.oldIndex !== this.currentIndex) {
+    //     this._runCallback(this.opt.onChange);
+    // }
+}
+
+
+MokiSlide.prototype._resetStage = function () {
+    this.isClicked = false;
+    this.dragState.start = 0;
+    this.dragState.end = 0;
+    this.dragState.range = 0;
+    this.opt.autoPlay && this._startAutoPlay();
+    this.dragState.status === STATUS.DONE && (this.dragState.status = STATUS.READY);
 }
 
 MokiSlide.prototype.nextSlide = function () {
-    if (this.isClicked) return;
-    this.isClicked = true;
-    this.oldIndex = this.currentIndex;
-    this.currentIndex += this.opt.slidesPerPage;
-    this._handlerMoveSlideTarget(true);
+    this._moveSlide(true);
 }
 
 MokiSlide.prototype.prevSlide = function () {
+    this._moveSlide(false);
+}
+
+MokiSlide.prototype._moveSlide = function (isNextSlide) {
     if (this.isClicked) return;
     this.isClicked = true;
     this.oldIndex = this.currentIndex;
-    this.currentIndex -= this.opt.slidesPerPage;
-    this._handlerMoveSlideTarget(false);
+    this.currentIndex = isNextSlide
+        ? this.currentIndex + this.opt.slidesPerPage
+        : this.currentIndex - this.opt.slidesPerPage;
+    this._handlerMoveSlideTarget(isNextSlide);
 }
 
 MokiSlide.prototype._cloneSlide = function () {
@@ -384,7 +420,13 @@ MokiSlide.prototype._initStyleSlide = function () {
 
     // Set Width
     this.slideItems.forEach(item => {
-        item.style.width = `calc(100% / ${this.opt.slidesPerPage})`;
+        if (this.isVertical) {
+            item.style.height = `calc(100% / ${this.opt.slidesPerPage})`;
+
+        } else {
+            item.style.width = `calc(100% / ${this.opt.slidesPerPage})`;
+
+        }
     });
     const gap = this.opt.slidesPerPage > 1 ? this.opt.gap : 0;
     this.slide.style.gap = `${gap}px`;
