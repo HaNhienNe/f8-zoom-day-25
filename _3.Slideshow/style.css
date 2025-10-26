@@ -7,7 +7,7 @@
 .moki-slide-container {
   position: relative;
   width: min(500px, 100vw);
-  height: min(1000px, 100vh);
+  height: min(1000px, 100dvh);
   margin: 0 auto;
   overflow: hidden;
   touch-action: none;

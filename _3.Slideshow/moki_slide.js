@@ -6,7 +6,7 @@ const defaults = {
     autoPlayDelay: 3000,
     pauseOnHover: true,
 
-    duration: 500,
+    duration: 300,
     timingFunction: 'ease',
 
     slidesPerPage: 1,
@@ -14,8 +14,8 @@ const defaults = {
     direction: 'horizontal', // or vertical - v
     gap: 0,
 
-    prevText: '‹',
-    nextText: '›',
+    prevText: '←',
+    nextText: '→',
     showArrows: true,
     showPagination: true,
 
@@ -87,7 +87,7 @@ MokiSlide.prototype._checkParams = function () {
     }
 
     if (this.opt.showArrows && (!this.opt.nextText || !this.opt.prevText)) {
-        console.warn('"nextText" or "prevText" is missing. Default arrows ‹ › will be used.');
+        console.warn('"nextText" or "prevText" is missing. Default arrows ← → will be used.');
     }
 }
 
@@ -147,7 +147,7 @@ MokiSlide.prototype._stopAutoPlay = function () {
 };
 
 MokiSlide.prototype._setupAutoPlayHoverEvents = function () {
-    this.slide.addEventListener('mouseenter', (e) => {
+    this.slide.addEventListener('pointerenter', (e) => {
         if (!this.opt.autoPlay || !this.opt.pauseOnHover) return;
         const notIgnore = !this.ignoreTargets.includes(e.target);
         if (notIgnore) {
@@ -155,7 +155,7 @@ MokiSlide.prototype._setupAutoPlayHoverEvents = function () {
         }
     });
 
-    this.slide.addEventListener('mouseleave', () => {
+    this.slide.addEventListener('pointerleave', () => {
         if (this.autoPlay === null && this.opt.pauseOnHover && this.opt.autoPlay) {
             this._startAutoPlay();
         }
@@ -262,10 +262,31 @@ MokiSlide.prototype._onPagination = function (slideIndex) {
 }
 
 // Create Control
+MokiSlide.prototype._setupButtonControl = function (button, isNextSlide) {
+    if (!button) return;
+    const prevTextDefault = '←';
+    const nextTextDefault = '→';
+    if (!button.value) {
+        button.value = isNextSlide ? nextTextDefault : prevTextDefault;
+        button.innerText = value;
+    }
+
+    if (!this.isVertical) return;
+
+    if (button.value === nextTextDefault) {
+        button.classList.add('rotate-down');
+    }
+
+    if (button.value === prevTextDefault) {
+        button.classList.add('rotate-up');
+    }
+
+}
+
 MokiSlide.prototype._createControl = function () {
     if (!this.opt.showArrows) return;
     const prevButton = createButton(mokiRefs.prevButton.value, this.opt.prevText);
-
+    this._setupButtonControl(prevButton, false);
     if (this.shouldDisableAllControls) {
         prevButton.disabled = true;
     } else {
@@ -273,11 +294,13 @@ MokiSlide.prototype._createControl = function () {
     }
 
     const nextButton = createButton(mokiRefs.nextButton.value, this.opt.nextText);
+    this._setupButtonControl(nextButton, true);
     if (this.shouldDisableAllControls) {
         nextButton.disabled = true;
     } else {
         nextButton.addEventListener('click', this.nextSlide.bind(this));
     }
+
 
     this.container.appendChild(prevButton);
     this.container.appendChild(nextButton);
@@ -287,7 +310,7 @@ MokiSlide.prototype._createControl = function () {
 
 MokiSlide.prototype._handlerMoveSlideTarget = function (isNextSlide) {
     const slideLastIndex = this.slideItems.length - 1;
-    const shouldWrap = this.currentIndex + this.opt.slidesPerPage >= slideLastIndex || this.currentIndex <= 0;
+    const shouldWrap = this.currentIndex + this.opt.slidesPerPage > slideLastIndex || this.currentIndex <= 0;
     if (!this.opt.loop) {
         if (this.currentIndex > slideLastIndex) {
             this.currentIndex -= this.opt.slidesPerPage;
@@ -470,10 +493,11 @@ function normalizeStringProps(target) {
     return target;
 }
 
-function createButton(className, innerText) {
+function createButton(className, value) {
     const newButton = document.createElement('button');
     newButton.className = className;
-    newButton.innerText = innerText;
+    newButton.innerText = value;
+    newButton.value = value;
     newButton.type = "button";
     return newButton;
 }
