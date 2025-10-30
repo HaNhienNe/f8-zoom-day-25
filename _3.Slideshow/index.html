@@ -2,42 +2,191 @@
 <html lang="vi">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slideshow</title>
-    <link rel="stylesheet" href="./moki_slide.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MokiSlide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="./utils.css">
+    <link rel="stylesheet" href="./moki_slide.css" />
+    <link rel="stylesheet" href="./tab.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <div class="my-slide moki-slide-container">
-        <div class="moki-slide">
-            <div class="moki-slide-item" data-image="./images/img7.png">
+    <div class="app">
+        <div class="view">
+            <div id="demo-slide">
+                <div class="moki-slide">
+                    <div class="moki-slide-item" data-image="./images/img7.png"></div>
+                    <div class="moki-slide-item" data-image="./images/img8.png"></div>
+                    <div class="moki-slide-item" data-image="./images/img9.png"></div>
+                    <div class="moki-slide-item" data-image="./images/img10.png"></div>
+                    <div class="moki-slide-item" data-image="./images/img11.png"></div>
+                    <div class="moki-slide-item" data-image="./images/img12.png"></div>
+                </div>
             </div>
-            <div class="moki-slide-item" data-image="./images/img8.png">
-            </div>
-            <div class="moki-slide-item" data-image="./images/img9.png">
-            </div>
-            <div class="moki-slide-item" data-image="./images/img10.png">
-            </div>
-            <div class="moki-slide-item" data-image="./images/img11.png">
-            </div>
-            <div class="moki-slide-item" data-image="./images/img12.png">
+            <button class="max-size"><i class="fa-solid fa-sliders"></i></button>
+        </div>
+        <div class="setting">
+            <div class="tabs moki-tabs">
+                <div class="moki-tab-list tab-list">
+                    <button class="moki-tab tab active" data-for="panel-1">Options</button>
+                    <button id="codeBtn" class="moki-tab tab" data-for="panel-2"><i class="fa fa-code"></i>
+                    </button>
+                    <button class="mini-size"><i class="fa-solid fa-sliders"></i></button>
+                </div>
+
+                <div class="moki-tab-panels tab-panels">
+                    <!-- Tab options -->
+                    <div class="moki-tab-panel tab-panel active" data-id="panel-1">
+                        <div class="tab-pane active">
+                            <div class="form-grid">
+                                <div class="form-row">
+                                    <!-- autoPlay -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="autoPlay" checked>
+                                        <span class="track"></span>
+                                        <span>Auto play</span>
+                                    </label>
+
+                                    <!-- pauseOnHover -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="pauseOnHover" checked>
+                                        <span class="track"></span>
+                                        <span>Pause on hover</span>
+                                    </label>
+
+                                    <!-- loop -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="loop" checked>
+                                        <span class="track"></span>
+                                        <span>Loop</span>
+                                    </label>
+
+                                    <!-- showArrows -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="showArrows" checked>
+                                        <span class="track"></span>
+                                        <span>Show arrows</span>
+                                    </label>
+
+                                    <!-- showPagination -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="showPagination" checked>
+                                        <span class="track"></span>
+                                        <span>Show pagination</span>
+                                    </label>
+
+                                    <!-- isPaginationInside -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="isPaginationInside">
+                                        <span class="track"></span>
+                                        <span>Pagination inside</span>
+                                    </label>
+                                    <!-- draggable -->
+                                    <label class="switch">
+                                        <input type="checkbox" id="draggable" checked>
+                                        <span class="track"></span>
+                                        <span>Draggable</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-row">
+                                    <!-- autoPlayDelay -->
+                                    <div class="form-col-2">
+                                        <label for="autoPlayDelay">Auto dlay delay (ms)</label>
+                                        <input type="number" id="autoPlayDelay" value="3000" min="500" step="100">
+                                    </div>
+
+                                    <!-- duration -->
+                                    <div class="form-col-2">
+                                        <label for="duration">Duration (ms)</label>
+                                        <input type="number" id="duration" value="300" min="100" step="50">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <!-- timingFunction -->
+                                    <div class="form-col-2">
+                                        <label for="timingFunction">Timing function</label>
+                                        <select id="timingFunction">
+                                            <option>ease</option>
+                                            <option>linear</option>
+                                            <option>ease-in</option>
+                                            <option>ease-out</option>
+                                            <option>ease-in-out</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- slidesPerPage -->
+                                    <div class="form-col-2">
+                                        <label for="slidesPerPage">Slides per page</label>
+                                        <input type="number" id="slidesPerPage" value="1" min="1" step="1">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-row">
+                                    <!-- direction -->
+                                    <div class="form-col-2">
+                                        <label for="direction">Direction</label>
+                                        <select id="direction">
+                                            <option value="horizontal" selected>horizontal</option>
+                                            <option value="vertical">vertical</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- gap -->
+                                    <div class="form-col-2">
+                                        <label for="gap">Gap (px)</label>
+                                        <input type="number" id="gap" value="0" min="0" step="1">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <!-- startIndex -->
+                                    <div class="form-col-3">
+                                        <label for="startIndex">Start index</label>
+                                        <input type="number" id="startIndex" value="0" min="0" step="1">
+                                    </div>
+
+                                    <!-- prevText -->
+                                    <div class="form-col-3">
+                                        <label for="prevText">Prev text</label>
+                                        <input type="text" id="prevText" value="←">
+                                    </div>
+
+                                    <!-- nextText -->
+                                    <div class="form-col-3">
+                                        <label for="nextText">Next text</label>
+                                        <input type="text" id="nextText" value="→">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <!-- Tab code -->
+                    <div class="moki-tab-panel tab-panel tab-code" data-id="panel-2">
+                        <div class="code-actions">
+                            <button id="copyBtn" class="btn"><i class="fa-solid fa-copy"></i></button>
+                        </div>
+                        <pre id="codebox"></pre>
+                    </div>
+                </div>
+                <div class="moki-tab-action">
+                    <button id="reset" class="btn">Reset</button>
+                    <button id="apply" class="btn primary">Aplly</button>
+                </div>
             </div>
         </div>
+
     </div>
     <script src="./moki_slide.js"></script>
+    <script src="./tab.js"></script>
     <script src="./main.js"></script>
-    <script>
-        const onInit = function () {
-            console.log('Init ....');
-        }
-
-        const onChange = function () {
-            console.log('Change ....');
-        }
-        const mokiSlide1 = new MokiSlide('.my-slide');
-    </script>
 </body>
 
 </html>

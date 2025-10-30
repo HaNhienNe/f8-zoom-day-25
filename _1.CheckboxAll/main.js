@@ -1,48 +1,62 @@
-const checkAllElement = document.querySelector('#checkAll');
-const countChecked = document.querySelector('#count-checked');
-const list = document.querySelector('#taskList');
-const items = document.querySelectorAll('.item');
+const $ = (sel, doc = document) => doc.querySelector(sel);
+const $$ = (sel, doc = document) => doc.querySelectorAll(sel);
 
-if (checkAllElement.checked) {
-    handlerAllChecked({ target: checkAllElement });
+const mokiRefs = {
+    checkboxAll: { sel: '.check-all', val: 'moki-check' },
+    checkboxsItem: { sel: '.check-item', val: 'check-item' },
+    count: { sel: '.count-checked', val: 'count-checked' },
+    main: { sel: '.moki-check', val: 'moki-check' },
 }
 
-// Update Count Checked
-handlerSummary();
+$$(mokiRefs.main.sel).forEach(mCheckbox => {
+    const cAll = $(mokiRefs.checkboxAll.sel, mCheckbox);
+    const cCount = $(mokiRefs.count.sel, mCheckbox);
+    let cItems = $$(mokiRefs.checkboxsItem.sel, mCheckbox);
+    const idFillter = cAll.dataset.id;
+    cItems = Array.from(cItems).filter(checkbox => checkbox.dataset.for === idFillter);
 
-// Checkbox all
-checkAllElement.addEventListener('change', handlerAllChecked);
+    if (cAll.checked) {
+        checkedAll(true, cItems);
+    }
 
-// Checkbox item
-items.forEach((item) => {
-    item.addEventListener('change', handlerItemChecked);
+    cAll.addEventListener('change', (e) => {
+        const isChecked = e.target.checked;
+        cItems.forEach((item) => {
+            item.checked = isChecked;
+        });
+        handlerSummary(cAll, cItems, cCount);
+    });
+
+    cItems.forEach((item) => {
+        item.addEventListener('change', () => {
+            handlerSummary(cAll, cItems, cCount);
+        });
+    });
+
+    handlerSummary(cAll, cItems, cCount);
 });
 
-
-function handlerItemChecked(event) {
-    handlerSummary();
-}
-
-function handlerAllChecked(event) {
-    const isChecked = event.target.checked;
-    items.forEach((item) => {
+function checkedAll(isChecked, cItems) {
+    cItems.forEach((item) => {
         item.checked = isChecked;
     });
-    handlerSummary();
 }
 
-function handlerSummary() {
+function handlerSummary(cAll, citems, cCount) {
     const result = { count: 0, isAllChecked: true };
-    items.forEach((item) => {
+    citems.forEach((item) => {
         result.isAllChecked = result.isAllChecked && item.checked
         result.count += item.checked ? 1 : 0;
     });
 
     if (result.isAllChecked && result.count) {
-        checkAllElement.indeterminate = false;
-        checkAllElement.checked = true;
+        cAll.indeterminate = false;
+        cAll.checked = true;
     } else if (result.count) {
-        checkAllElement.indeterminate = true;
+        cAll.indeterminate = true;
+    } else {
+        cAll.checked = false;
+        cAll.indeterminate = false;
     }
-    countChecked.innerHTML = `Checked: ${result.count}`;
+    cCount.textContent = `Checked: ${result.count}`;
 }

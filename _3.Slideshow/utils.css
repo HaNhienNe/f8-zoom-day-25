@@ -1,0 +1,98 @@
+:root {
+  --track-bg: #f97316;
+  --track-w: 30px;
+  --track-h: 18px;
+  --track-b: 1.5px;
+  --main-color: #f97316;
+  --border-color: #e5e7eb;
+  --bg-light: #fafafa;
+  --text-color: #333;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-family: sans-serif;
+}
+
+.switch input[type="checkbox"] {
+  display: none;
+}
+
+.switch .track {
+  position: relative;
+  display: inline-block;
+  width: var(--track-w);
+  height: var(--track-h);
+  background-color: #e5e7eb;
+  border-radius: 999px;
+  border: var(--track-b) solid #d1d5db;
+  transition: background-color 300ms ease;
+}
+
+.switch .track::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: calc(var(--track-h) - var(--track-b) * 3);
+  height: calc(var(--track-h) - var(--track-b) * 3);
+  background: #fff;
+  border-radius: 50%;
+  transform: translate(0, -50%);
+  transition: transform 300ms ease;
+}
+
+.switch input[type="checkbox"]:checked + .track {
+  background-color: var(--track-bg);
+}
+
+.switch input[type="checkbox"]:checked + .track::after {
+  transform: translate(calc(var(--track-w) - var(--track-h)), -50%);
+}
+
+.switch input[type="checkbox"]:checked ~ span {
+  color: var(--track-bg);
+}
+
+.switch input[type="checkbox"]:checked ~ span {
+  color: var(--track-bg);
+}
+
+.switch .label {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.switch .hint {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1;
+}
+
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.btn:hover {
+  opacity: 0.7;
+}
+
+.btn.primary {
+  background: var(--main-color);
+  color: #fff;
+  border-color: var(--main-color);
+}
+
+.hidden {
+  display: none;
+}

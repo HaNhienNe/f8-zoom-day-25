@@ -18,6 +18,7 @@ const defaults = {
     nextText: '→',
     showArrows: true,
     showPagination: true,
+    isPaginationInside: false,
 
     startIndex: 0,
     draggable: true,
@@ -236,7 +237,7 @@ MokiSlide.prototype._createPagination = function () {
     const pagination = document.createElement('div');
     const countPagination = Math.ceil(this.totalSlideOrigin / this.opt.slidesPerPage);
     pagination.className = mokiRefs.pagination.value;
-
+    pagination.style.width = `${this.slide.offsetWidth}px`;
     for (let i = 1; i <= countPagination; i++) {
         const paginationItem = document.createElement('div');
         paginationItem.className = mokiRefs.paginationItems.value;
@@ -248,10 +249,15 @@ MokiSlide.prototype._createPagination = function () {
         this.ignoreTargets.push(paginationItem);
     }
 
-    this.container.appendChild(pagination);
-    this.pagination = $(mokiRefs.pagination.sel, this.container);
+    this.container.after(pagination);
+    this.pagination = $(mokiRefs.pagination.sel);
     this.paginationItems = $$(mokiRefs.paginationItems.sel, this.pagination);
     this._activePagination();
+    if (this.opt.isPaginationInside) {
+        this.pagination.style.transform = 'translateY(-100%)';
+        this.pagination.style.backgroundColor = 'transparent';
+    }
+
     this.ignoreTargets.push(pagination);
 }
 

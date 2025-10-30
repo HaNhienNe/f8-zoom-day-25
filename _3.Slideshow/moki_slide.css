@@ -22,6 +22,7 @@
   width: 100%;
   height: 100%;
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
@@ -38,7 +39,7 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  border: 1px solid #dce0e3;
+  border: none;
   margin: 0 14px;
   align-items: center;
   justify-content: center;
@@ -54,8 +55,8 @@
   background-color: #b4bdc3;
   opacity: 1;
   border-radius: 999px;
-  width: 40px;
-  height: 10px;
+  width: 50px;
+  height: 12px;
 }
 
 .moki-prev,

@@ -10,22 +10,74 @@
 
 <body>
     <div class="box">
-        <input type="checkbox" id="checkAll">
-        <label for="checkAll">All</label>
-        <span id="count-checked"></span>
-        <ul id="taskList">
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-            <li><input type="checkbox" class="item"><span>Todo something ... </span></li>
-        </ul>
+        <div class="box">
+            <div class="moki-check">
+                <h3 class="moki-title">Công việc cá nhân</h3>
+                <input type="checkbox" id="checkAll-1" class="check-all" data-id="checkAll-1">
+                <label for="checkAll-1">All</label>
+                <span id="count-checked" class="count-checked"></span>
+                <ul class="check-list" id="taskList">
+                    <li><input checked type="checkbox" class="check-item" data-for="checkAll-1"><span>Tập thể dục buổi
+                            sáng</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Pha cà phê và ăn
+                            sáng</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Đọc 10 trang sách</span>
+                    </li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Dọn dẹp bàn làm
+                            việc</span></li>
+                    <li><input checked type="checkbox" class="check-item" data-for="checkAll-1"><span>Tưới cây trước
+                            nhà</span>
+                    </li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Kiểm tra email cá
+                            nhân</span></li>
+                    <li><input checked type="checkbox" class="check-item" data-for="checkAll-1"><span>Lập kế hoạch cho
+                            ngày
+                            mới</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Chuẩn bị đồ đi làm</span>
+                    </li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Nghe podcast ngắn</span>
+                    </li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-1"><span>Ăn trưa đúng giờ</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="moki-check">
+                <h3 class="moki-title">Học tập</h3>
+                <input type="checkbox" id="checkAll-2" class="check-all" data-id="checkAll-2">
+                <label for="checkAll-2">All</label>
+                <span id="count-checked" class="count-checked"></span>
+                <ul class="check-list" id="taskList">
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-2"><span>Ôn lại bài JavaScript hôm
+                            qua</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-2"><span>Hoàn thành bài tập Todo
+                            List</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-2"><span>Xem lại khái niệm Event &
+                            DOM</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-2"><span>Commit bài học lên
+                            GitHub</span></li>
+                </ul>
+            </div>
+
+            <div class="moki-check">
+                <h3 class="moki-title">Công việc</h3>
+                <input checked type="checkbox" id="checkAll3" class="check-all" data-id="checkAll-3">
+                <label for="checkAll-3">All</label>
+                <span id="count-checked" class="count-checked"></span>
+                <ul class="check-list" id="taskList">
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-3"><span>Kiểm tra email công
+                            việc</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-3"><span>Cập nhật tiến độ dự
+                            án</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-3"><span>Tham dự họp nhóm
+                            sáng</span></li>
+                    <li><input type="checkbox" class="check-item" data-for="checkAll-3"><span>Gửi báo cáo cuối
+                            ngày</span></li>
+                </ul>
+            </div>
+        </div>
     </div>
+
     <script src="./main.js"></script>
 </body>
 
