@@ -12,24 +12,30 @@
   box-sizing: border-box;
 }
 
+.container {
+  overflow-x: hidden;
+}
+
 .app {
-  padding: 12px;
   display: flex;
+  padding: 12px;
   gap: 12px;
   height: 100dvh;
-  width: 100dvw;
-  overflow: hidden;
+  transition: all 300ms ease;
 }
 
 .view {
   flex: 1;
   position: relative;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 300ms ease;
 }
 
-.view .max-size {
+.view .btn-open-setting {
   position: absolute;
-  right: 8px;
-  top: 28px;
+  right: 16px;
+  top: 36px;
   width: 40px;
   height: 40px;
   cursor: pointer;
@@ -48,28 +54,33 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.max-size:hover {
+.btn-open-setting:hover {
   opacity: 1;
   cursor: pointer;
   transform: translateY(-50%) scale(1.08);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.max-size:active {
+.btn-open-setting:active {
   transform: translateY(-50%) scale(0.85);
 }
 
-.moki-slide-container {
+#demo-slide {
   width: 100%;
   height: calc(100% - 48px);
 }
 
 .setting {
-  width: 500px;
+  width: min(500px, 40%);
   border: 1px solid var(--border-color);
   background: var(--bg-soft);
   border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  transition: all 300ms ease;
+}
+
+.setting #copyBtn {
+  border: none;
 }
 
 .tab-list {
@@ -77,21 +88,26 @@
   width: 100%;
 }
 
-.tab-list .mini-size {
+.tab-list #codeBtn {
+  font-size: 16px;
+}
+
+.tab-list .btn-close-setting,
+.tab-list .btn-copy {
   position: absolute;
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
   height: 40px;
-  border: 1px solid var(--main-color);
+  border: none;
   color: var(--main-color);
   background-color: transparent;
   cursor: pointer;
   font-size: 16px;
+  display: none;
 }
 
-/* layout tổng */
 .form-grid {
   display: flex;
   flex-direction: column;
@@ -129,11 +145,10 @@
 }
 
 .form-row .form-col-2 {
-  flex: 1 1 calc(50% - 7px);
+  width: calc(50% - 7px);
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 140px;
 }
 
 .form-row .form-col-2 label {
@@ -159,11 +174,10 @@
 }
 
 .form-row .form-col-3 {
-  flex: 1 1 calc(33.333% - 9.3px);
+  width: calc(33.333% - 9.3px);
   display: flex;
   flex-direction: column;
   gap: 6px;
-  min-width: 130px;
 }
 
 .form-row .form-col-3 label {
@@ -183,6 +197,22 @@
 .form-row .form-col-3 input:focus {
   border-color: var(--main-color);
   box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.12);
+}
+
+.note {
+  margin: 6px 0;
+  padding: 8px 10px;
+  background: #eef6ff;
+  border-left: 4px solid #2a7be4;
+  border-radius: 4px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.note:nth-child(2) {
+  background: #fff7e6;
+  border-left-color: #f59e0b;
 }
 
 .moki-tab-action {
@@ -205,12 +235,11 @@
   height: 100%;
 }
 
-/* Thanh trên cùng: chứa nút Copy */
 .code-actions {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: transparent; /* nền nhạt theo màu chủ đạo */
+  background: transparent;
 }
 
 .code-actions .btn {
@@ -229,7 +258,6 @@
   color: #fff;
 }
 
-/* Vùng code hiển thị */
 #codebox {
   background: #1e1e1e;
   color: #f8f8f2;
@@ -248,7 +276,6 @@
   border-bottom-right-radius: 8px;
 }
 
-/* Thanh cuộn nhẹ, cùng tone màu */
 #codebox::-webkit-scrollbar {
   height: 6px;
   width: 6px;
@@ -263,25 +290,50 @@
   background: #ea580c;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
-  .form-row:first-child .switch {
-    width: calc(50% - 10px);
+  .app {
+    padding: 0;
+    gap: 0;
+  }
+
+  .setting,
+  .view {
+    width: 100%;
+    flex: none;
+  }
+  .view .btn-open-setting {
+    display: block;
+  }
+
+  .moki-tab-list {
+    display: flex;
+  }
+
+  .tab-list .btn-close-setting {
+    display: block;
+  }
+
+  .tab-list .btn-copy {
+    right: 60px;
+  }
+
+  .tab-list .btn-close-setting {
+    display: block;
+  }
+
+  .setting .form-grid {
+    overflow-y: auto;
+    max-height: 100dvh;
   }
 
   .form-row {
-    flex-direction: column;
+    flex-wrap: wrap;
   }
 
+  .form-row:first-child .switch,
   .form-row .form-col-2,
   .form-row .form-col-3 {
-    width: 100%;
-    flex: 1 1 100%;
-  }
-}
-
-@media (max-width: 460px) {
-  .form-row:first-child .switch {
-    width: 100%;
+    width: calc(50% - 14px);
+    flex: none;
   }
 }
