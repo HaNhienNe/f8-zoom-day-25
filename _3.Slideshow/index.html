@@ -184,13 +184,16 @@
 
                       <!-- gap -->
                       <div class="form-col-2">
-                        <label for="gap">Gap (px)</label>
+                        <label class="disabled" for="gap">Gap (px) <span class="note disabled">This feature is being developed.</span></label>
+                        
                         <input
+                          class="disabled"
                           type="number"
                           id="gap"
                           value="0"
                           min="0"
                           step="1"
+                          disabled
                         />
                       </div>
                     </div>
@@ -220,12 +223,6 @@
                           step="1"
                         />
                       </div>
-                    </div>
-                    <div class="form-row">
-                      <p class="note">
-                        Note: the <strong>Gap</strong> feature is still under
-                        development.
-                      </p>
                     </div>
                   </div>
                 </div>

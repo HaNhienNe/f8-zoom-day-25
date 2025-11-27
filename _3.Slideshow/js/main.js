@@ -41,7 +41,7 @@ function getOptions() {
     slidesPerPage: +document.getElementById("slidesPerPage").value,
     loop: document.getElementById("loop").checked,
     direction: document.getElementById("direction").value,
-    gap: +document.getElementById("gap").value,
+    gap: 0,
 
     prevText: document.getElementById("prevText").value || "←",
     nextText: document.getElementById("nextText").value || "→",
@@ -65,7 +65,7 @@ function setOptions(options) {
   document.getElementById("slidesPerPage").value = options.slidesPerPage;
   document.getElementById("loop").checked = options.loop;
   document.getElementById("direction").value = options.direction;
-  document.getElementById("gap").value = options.gap;
+  document.getElementById("gap").value = 0;
 
   document.getElementById("prevText").value = options.prevText;
   document.getElementById("nextText").value = options.nextText;
